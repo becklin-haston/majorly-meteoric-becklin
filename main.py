@@ -15,7 +15,7 @@ def get_meteor_files_from_s3(bucket, meteor_data_file_download_location):
 
 if __name__ == "__main__":
 
-    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+    logging.basicConfig(filename='majorly_meteoric.log', encoding='utf-8', level=logging.DEBUG)
 
     with open("config.json", "r", encoding="utf-8") as config_json_file:
         config = json.load(config_json_file)
@@ -27,5 +27,7 @@ if __name__ == "__main__":
 
     if not os.path.exists(meteor_data_file_dir_name):
         os.makedirs(meteor_data_file_dir_name)
+
+    logging.debug("this is a debug log")
 
     get_meteor_files_from_s3(s3_bucket, meteor_data_file_dir_name)
