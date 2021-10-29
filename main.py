@@ -2,17 +2,20 @@ import boto3
 import json
 import pandas as pd
 import os
+import logging
 
 
-def get_meteor_files_from_s3(s3_bucket, meteor_data_file_download_location):
+def get_meteor_files_from_s3(bucket, meteor_data_file_download_location):
 
-    for obj in s3_bucket.objects.all():
+    for obj in bucket.objects.all():
         meteor_data_filename = obj.key
         with open(os.path.join(meteor_data_file_download_location, meteor_data_filename), "wb") as meteor_data_file:
-            s3_bucket.download_fileobj(meteor_data_filename, meteor_data_file)
+            bucket.download_fileobj(meteor_data_filename, meteor_data_file)
 
 
 if __name__ == "__main__":
+
+    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
 
     with open("config.json", "r", encoding="utf-8") as config_json_file:
         config = json.load(config_json_file)
