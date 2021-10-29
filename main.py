@@ -1,4 +1,5 @@
 import boto3
+import json
 import pandas as pd
 import os
 
@@ -13,13 +14,15 @@ def get_meteor_files_from_s3(s3_bucket, meteor_data_file_download_location):
 
 if __name__ == "__main__":
 
-    meteor_data_file_dir = "meteor_files"  # TODO: move this to config.json
+    with open("config.json", "r", encoding="utf-8") as config_json_file:
+        config = json.load(config_json_file)
 
-    s3_bucket_name = "majorly-meteoric"  # TODO: move this to config.json
+    meteor_data_file_dir_name = config["meteor_data_file_dir_name"]
+    s3_bucket_name = config["s3_bucket_name"]
     s3 = boto3.resource('s3')
     s3_bucket = s3.Bucket(s3_bucket_name)
 
-    if not os.path.exists(meteor_data_file_dir):
-        os.makedirs(meteor_data_file_dir)
+    if not os.path.exists(meteor_data_file_dir_name):
+        os.makedirs(meteor_data_file_dir_name)
 
-    get_meteor_files_from_s3(s3_bucket, meteor_data_file_dir)
+    get_meteor_files_from_s3(s3_bucket, meteor_data_file_dir_name)
